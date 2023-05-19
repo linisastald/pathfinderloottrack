@@ -19,12 +19,7 @@ function ItemForm() {
             item_type: itemType,
             size,
         };
-        try {
-            await apiService.postItem(itemData);
-            alert('Item has been created successfully.');
-        } catch (error) {
-            alert('An error occurred while creating the item.');
-        }
+
     };
 
     return (
