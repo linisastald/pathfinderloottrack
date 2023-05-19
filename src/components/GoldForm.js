@@ -41,10 +41,6 @@ function GoldForm() {
                         <input type="text" name="transactionType" value={transaction.transactionType} onChange={event => handleInputChange(index, event)} />
                     </label>
                     <label>
-                        Notes:
-                        <input type="text" name="notes" value={transaction.notes} onChange={event => handleInputChange(index, event)} />
-                    </label>
-                    <label>
                         Copper:
                         <input type="number" name="copper" value={transaction.copper} onChange={event => handleInputChange(index, event)} />
                     </label>
@@ -61,6 +57,10 @@ function GoldForm() {
                         <input type="number" name="platinum" value={transaction.platinum} onChange={event => handleInputChange(index, event)} />
                     </label>
                     <p>Total: {transaction.copper/100 + transaction.silver/10 + transaction.gold + transaction.platinum*10}</p>
+                    <label>
+                        Notes:
+                    <input type="text" name="notes" value={transaction.notes} onChange={event => handleInputChange(index, event)} />
+                    </label>
                 </div>
             ))}
             <button type="submit">Submit</button>
