@@ -12,7 +12,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/" element={<ItemForm />} />
+        <Route path="/item-input" element={<ItemForm />} />
       </Routes>
     </BrowserRouter>
   )
