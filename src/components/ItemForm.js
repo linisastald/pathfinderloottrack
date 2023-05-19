@@ -48,10 +48,13 @@ function ItemForm() {
 
     return (
 <form onSubmit={handleSubmit} style={formStyle}>
-    <label>
-        Session Date:
-        <input type="date" tabIndex="1" value={sessionDate} onChange={e => setSessionDate(e.target.value)} />
-    </label>
+    <div>
+        <label>
+            Session Date:
+            <input type="date" tabIndex="1" value={sessionDate} onChange={e => setSessionDate(e.target.value)} />
+        </label>
+        <button type="button" tabIndex={`${2 + items.length * 5}`} onClick={addItem}>Add Item</button>
+    </div>
     {items.map((item, index) => (
         <div key={index}>
             <label>
@@ -80,9 +83,9 @@ function ItemForm() {
             </label>
         </div>
     ))}
-    <button type="button" tabIndex={`${2 + items.length * 5}`} onClick={addItem}>Add Item</button>
     <button type="submit" tabIndex={`${3 + items.length * 5}`}>Submit</button>
 </form>
+
 
     );
 }
