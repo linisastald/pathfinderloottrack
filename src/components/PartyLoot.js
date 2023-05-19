@@ -10,30 +10,42 @@ function PartyLoot() {
     return (
         <div>
             <h1>Party Loot</h1>
-            <table>
+            <table style={{borderCollapse: 'collapse'}}>
                 <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Quantity</th>
-                    <th>Item Name</th>
-                    <th>Unidentified</th>
-                    <th>Type</th>
-                    <th>Size</th>
+                    <th style={{border: '1px solid white'}}>Session Date</th>
+                    <th style={{border: '1px solid white'}}>Quantity</th>
+                    <th style={{border: '1px solid white'}}>Item Name</th>
+                    <th style={{border: '1px solid white'}}>Unidentified</th>
+                    <th style={{border: '1px solid white'}}>Type</th>
+                    <th style={{border: '1px solid white'}}>Size</th>
+                    <th style={{border: '1px solid white'}}>Average Believed Value</th>
+                    <th style={{border: '1px solid white'}}>50% Average Believed Value</th>
+                    <th style={{border: '1px solid white'}}>Who Appraised?</th>
                 </tr>
                 </thead>
                 <tbody>
                 {items.map(item => (
                     <tr key={item.id}>
-                        <td>{new Date(item.session_date).toLocaleDateString()}</td>
-                        <td>{item.quantity}</td>
-                        <td>{item.item_name}</td>
-                        <td>{item.unidentified ? 'Yes' : 'No'}</td>
-                        <td>{item.item_type}</td>
-                        <td>{item.size}</td>
+                        <td style={{border: '1px solid white'}}>{new Date(item.session_date).toLocaleDateString()}</td>
+                        <td style={{border: '1px solid white'}}>{item.quantity}</td>
+                        <td style={{border: '1px solid white'}}>{item.item_name}</td>
+                        <td style={{border: '1px solid white'}}>{item.unidentified ? 'Yes' : 'No'}</td>
+                        <td style={{border: '1px solid white'}}>{item.item_type}</td>
+                        <td style={{border: '1px solid white'}}>{item.size}</td>
+                        <td style={{border: '1px solid white'}}>{item.avg_believed_value}</td>
+                        <td style={{border: '1px solid white'}}>{item.avg_believed_value / 2}</td>
+                        <td style={{border: '1px solid white'}}>{item.who_appraised}</td>
                     </tr>
                 ))}
                 </tbody>
             </table>
+            <button type="button">Appraise</button>
+            <button type="button">Keep Party</button>
+            <button type="button">Keep Self</button>
+            <button type="button">Sell</button>
+            <button type="button">Trash</button>
+            <button type="button">Update</button>
         </div>
     );
 }
