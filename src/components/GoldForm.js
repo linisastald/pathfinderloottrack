@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const transactionTypes = ["Withdrawal", "Deposit", "Purchase", "Sale", "Party Loot Purchase"];
+
 function GoldForm() {
     const [sessionDate, setSessionDate] = useState(new Date().toISOString().slice(0, 10));
     const [transactions, setTransactions] = useState([
@@ -38,7 +40,14 @@ function GoldForm() {
                 <div key={index}>
                     <label>
                         Transaction Type:
-                        <input type="text" name="transactionType" value={transaction.transactionType} onChange={event => handleInputChange(index, event)} />
+                        <select name="transactionType" value={transaction.transactionType} onChange={event => handleInputChange(index, event)}>
+                            <option value="">--Please choose an option--</option>
+                            {transactionTypes.map(type => (
+                                <option key={type} value={type}>
+                                    {type}
+                                </option>
+                            ))}
+                        </select>
                     </label>
                     <label>
                         Copper:
@@ -58,10 +67,9 @@ function GoldForm() {
                     </label>
                     <label>
                         Notes:
-                    <input type="text" name="notes" value={transaction.notes} onChange={event => handleInputChange(index, event)} />
+                        <input type="text" name="notes" value={transaction.notes} onChange={event => handleInputChange(index, event)} />
                     </label>
                     <p>Total: {transaction.copper/100 + transaction.silver/10 + transaction.gold + transaction.platinum*10}</p>
-
                 </div>
             ))}
             <button type="submit">Submit</button>
