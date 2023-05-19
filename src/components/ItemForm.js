@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import apiService from '../../../loottracker/frontend/src/services/apiService';
+import React, { useState } from 'react';
 
 function ItemForm() {
     const [sessionDate, setSessionDate] = useState(new Date().toISOString().slice(0, 10));
@@ -9,8 +8,9 @@ function ItemForm() {
     const [itemType, setItemType] = useState('');
     const [size, setSize] = useState('');
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
+
         const itemData = {
             session_date: sessionDate,
             quantity,
@@ -20,33 +20,34 @@ function ItemForm() {
             size,
         };
 
+        console.log(itemData);
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <label>
                 Session Date:
-                <input type="date" value={sessionDate} onChange={e => setSessionDate(e.target.value)}/>
+                <input type="date" value={sessionDate} onChange={e => setSessionDate(e.target.value)} />
             </label>
             <label>
                 Quantity:
-                <input type="number" value={quantity} onChange={e => setQuantity(Number(e.target.value))}/>
+                <input type="number" value={quantity} onChange={e => setQuantity(Number(e.target.value))} />
             </label>
             <label>
                 Item Name:
-                <input type="text" value={itemName} onChange={e => setItemName(e.target.value)}/>
+                <input type="text" value={itemName} onChange={e => setItemName(e.target.value)} />
             </label>
             <label>
                 Unidentified:
-                <input type="checkbox" checked={unidentified} onChange={e => setUnidentified(e.target.checked)}/>
+                <input type="checkbox" checked={unidentified} onChange={e => setUnidentified(e.target.checked)} />
             </label>
             <label>
                 Type:
-                <input type="text" value={itemType} onChange={e => setItemType(e.target.value)}/>
+                <input type="text" value={itemType} onChange={e => setItemType(e.target.value)} />
             </label>
             <label>
                 Size:
-                <input type="text" value={size} onChange={e => setSize(e.target.value)}/>
+                <input type="text" value={size} onChange={e => setSize(e.target.value)} />
             </label>
             <button type="submit">Submit</button>
         </form>
