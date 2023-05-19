@@ -42,7 +42,7 @@ function GoldForm() {
                     </label>
                     <label>
                         Notes:
-                        <textarea name="notes" value={transaction.notes} onChange={event => handleInputChange(index, event)} />
+                        <input type="text" name="notes" value={transaction.notes} onChange={event => handleInputChange(index, event)} />
                     </label>
                     <label>
                         Copper:
