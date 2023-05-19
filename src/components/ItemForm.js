@@ -36,7 +36,7 @@ function ItemForm() {
         display: 'flex',
         flexDirection: 'column',
         gap: '20px',
-        width: '300px',
+        width: 'auto',
         margin: '0 auto'
     };
 
