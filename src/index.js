@@ -18,7 +18,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" component={LandingPage} />
+        <Route path="/" component={LandingPage} />
         <Route path="/item-input" component={ItemForm} />
         <Route path="/gold-input" component={GoldForm} />
         <Route path="/gold-transactions" component={GoldTransactions} />
