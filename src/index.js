@@ -4,13 +4,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './pages/Home.js';
 import LandingPage from './pages/LandingPage.js';
 import reportWebVitals from './reportWebVitals';
+import ItemForm from './components/ItemForm';
 import './App.css';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<ItemForm />} />
       </Routes>
     </BrowserRouter>
   )
