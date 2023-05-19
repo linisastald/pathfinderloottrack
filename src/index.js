@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './pages/Home.js';
-import LoginPage from './pages/LoginPage.js';
+import LandingPage from './pages/LandingPage.js';
 import reportWebVitals from './reportWebVitals';
 import './App.css';
 
@@ -10,7 +10,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<LandingPage />} />
       </Routes>
     </BrowserRouter>
   )
