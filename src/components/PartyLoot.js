@@ -6,6 +6,15 @@ function PartyLoot() {
         {id: 2, session_date: '2023-05-03', quantity: 1, item_name: 'Ring of Protection', unidentified: true, item_type: 'Magic', size: 'Small'},
         {id: 3, session_date: '2023-05-07', quantity: 3, item_name: 'Potion', unidentified: false, item_type: 'Gear', size: 'Small'},
     ]);
+    const [selectedItems, setSelectedItems] = useState([]);
+
+    const handleSelect = (item) => {
+        if (selectedItems.includes(item.id)) {
+            setSelectedItems(selectedItems.filter(id => id !== item.id));
+        } else {
+            setSelectedItems([...selectedItems, item.id]);
+        }
+    };
 
     return (
         <div>
@@ -13,29 +22,17 @@ function PartyLoot() {
             <table style={{borderCollapse: 'collapse'}}>
                 <thead>
                 <tr>
-                    <th style={{border: '1px solid white'}}>Session Date</th>
-                    <th style={{border: '1px solid white'}}>Quantity</th>
-                    <th style={{border: '1px solid white'}}>Item Name</th>
-                    <th style={{border: '1px solid white'}}>Unidentified</th>
-                    <th style={{border: '1px solid white'}}>Type</th>
-                    <th style={{border: '1px solid white'}}>Size</th>
-                    <th style={{border: '1px solid white'}}>Average Believed Value</th>
-                    <th style={{border: '1px solid white'}}>50% Average Believed Value</th>
-                    <th style={{border: '1px solid white'}}>Who Appraised?</th>
+                    <th style={{border: '1px solid white'}}>Select</th>
+                    {/* ...rest of headers... */}
                 </tr>
                 </thead>
                 <tbody>
                 {items.map(item => (
                     <tr key={item.id}>
-                        <td style={{border: '1px solid white'}}>{new Date(item.session_date).toLocaleDateString()}</td>
-                        <td style={{border: '1px solid white'}}>{item.quantity}</td>
-                        <td style={{border: '1px solid white'}}>{item.item_name}</td>
-                        <td style={{border: '1px solid white'}}>{item.unidentified ? 'Yes' : 'No'}</td>
-                        <td style={{border: '1px solid white'}}>{item.item_type}</td>
-                        <td style={{border: '1px solid white'}}>{item.size}</td>
-                        <td style={{border: '1px solid white'}}>{item.avg_believed_value}</td>
-                        <td style={{border: '1px solid white'}}>{item.avg_believed_value / 2}</td>
-                        <td style={{border: '1px solid white'}}>{item.who_appraised}</td>
+                        <td style={{border: '1px solid white'}}>
+                            <input type="checkbox" onChange={() => handleSelect(item)} checked={selectedItems.includes(item.id)} />
+                        </td>
+                        {/* ...rest of cells... */}
                     </tr>
                 ))}
                 </tbody>
