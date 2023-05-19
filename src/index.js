@@ -8,6 +8,7 @@ import ItemForm from './components/ItemForm';
 import './App.css';
 import GoldForm from "./components/GoldForm";
 import PartyLoot from "./components/PartyLoot";
+import GoldTransactions from "./components/GoldTransactions";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/item-input" element={<ItemForm />} />
         <Route path="/gold-input" element={<GoldForm />} />
         <Route path="/party-loot" element={<PartyLoot />} />
+        <Route path="/gold-transactions" element={<GoldTransactions />} />
       </Routes>
     </BrowserRouter>
   )
