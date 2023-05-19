@@ -31,7 +31,15 @@ const [items, setItems] = useState([
                 <thead>
                 <tr>
                     <th style={{border: '1px solid white'}}>Select</th>
-                    {/* ...rest of headers... */}
+                    <th style={{border: '1px solid white'}}>Session Date</th>
+                    <th style={{border: '1px solid white'}}>Quantity</th>
+                    <th style={{border: '1px solid white'}}>Item Name</th>
+                    <th style={{border: '1px solid white'}}>Unidentified</th>
+                    <th style={{border: '1px solid white'}}>Type</th>
+                    <th style={{border: '1px solid white'}}>Size</th>
+                    <th style={{border: '1px solid white'}}>Average Believed Value</th>
+                    <th style={{border: '1px solid white'}}>50% Average Believed Value</th>
+                    <th style={{border: '1px solid white'}}>Who Appraised?</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,7 +48,15 @@ const [items, setItems] = useState([
                         <td style={{border: '1px solid white'}}>
                             <input type="checkbox" onChange={() => handleSelect(item)} checked={selectedItems.includes(item.id)} />
                         </td>
-                        {/* ...rest of cells... */}
+                        <td style={{border: '1px solid white'}}>{new Date(item.session_date).toLocaleDateString()}</td>
+                        <td style={{border: '1px solid white'}}>{item.quantity}</td>
+                        <td style={{border: '1px solid white'}}>{item.item_name}</td>
+                        <td style={{border: '1px solid white'}}>{item.unidentified ? 'Yes' : 'No'}</td>
+                        <td style={{border: '1px solid white'}}>{item.item_type}</td>
+                        <td style={{border: '1px solid white'}}>{item.size}</td>
+                        <td style={{border: '1px solid white'}}>{item.avg_believed_value}</td>
+                        <td style={{border: '1px solid white'}}>{item.avg_believed_value * 0.5}</td>
+                        <td style={{border: '1px solid white'}}>{item.who_appraised}</td>
                     </tr>
                 ))}
                 </tbody>
