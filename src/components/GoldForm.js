@@ -42,19 +42,19 @@ function GoldForm() {
                     </label>
                     <label>
                         Copper:
-                        <input type="number" name="copper" value={transaction.copper} onChange={event => handleInputChange(index, event)} />
+                        <input type="number" name="copper" style={{width: '50px'}} value={transaction.copper} onChange={event => handleInputChange(index, event)} />
                     </label>
                     <label>
                         Silver:
-                        <input type="number" name="silver" value={transaction.silver} onChange={event => handleInputChange(index, event)} />
+                        <input type="number" name="silver" style={{width: '50px'}} value={transaction.silver} onChange={event => handleInputChange(index, event)} />
                     </label>
                     <label>
                         Gold:
-                        <input type="number" name="gold" value={transaction.gold} onChange={event => handleInputChange(index, event)} />
+                        <input type="number" name="gold" style={{width: '50px'}} value={transaction.gold} onChange={event => handleInputChange(index, event)} />
                     </label>
                     <label>
                         Platinum:
-                        <input type="number" name="platinum" value={transaction.platinum} onChange={event => handleInputChange(index, event)} />
+                        <input type="number" name="platinum" style={{width: '50px'}} value={transaction.platinum} onChange={event => handleInputChange(index, event)} />
                     </label>
                     <label>
                         Notes:
