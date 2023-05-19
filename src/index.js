@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage.js';
 import reportWebVitals from './reportWebVitals';
 import ItemForm from './components/ItemForm';
 import './App.css';
+import GoldForm from "./components/GoldForm";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/item-input" element={<ItemForm />} />
+        <Route path="/gold-input" element={<GoldForm />} />
       </Routes>
     </BrowserRouter>
   )
