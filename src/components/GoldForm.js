@@ -2,59 +2,67 @@ import React, { useState } from 'react';
 
 function GoldForm() {
     const [sessionDate, setSessionDate] = useState(new Date().toISOString().slice(0, 10));
-    const [transactionType, setTransactionType] = useState('');
-    const [notes, setNotes] = useState('');
-    const [copper, setCopper] = useState(0);
-    const [silver, setSilver] = useState(0);
-    const [gold, setGold] = useState(0);
-    const [platinum, setPlatinum] = useState(0);
+    const [transactions, setTransactions] = useState([
+        { transactionType: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 },
+    ]);
+
+    const handleInputChange = (index, event) => {
+        const values = [...transactions];
+        if (event.target.name === "copper" || event.target.name === "silver" || event.target.name === "gold" || event.target.name === "platinum") {
+            values[index][event.target.name] = parseInt(event.target.value);
+        } else {
+            values[index][event.target.name] = event.target.value;
+        }
+        setTransactions(values);
+    };
+
+    const handleAddClick = () => {
+        setTransactions([...transactions, { transactionType: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 }]);
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
-        const goldData = {
-            session_date: sessionDate,
-            transaction_type: transactionType,
-            notes,
-            copper,
-            silver,
-            gold,
-            platinum,
-        };
-
-        console.log(goldData);
+        console.log({ sessionDate, transactions });
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <label>
-                Session Date:
-                <input type="date" value={sessionDate} onChange={e => setSessionDate(e.target.value)} />
-            </label>
-            <label>
-                Transaction Type:
-                <input type="text" value={transactionType} onChange={e => setTransactionType(e.target.value)} />
-            </label>
-            <label>
-                Notes:
-                <textarea value={notes} onChange={e => setNotes(e.target.value)} />
-            </label>
-            <label>
-                Copper:
-                <input type="number" value={copper} onChange={e => setCopper(Number(e.target.value))} />
-            </label>
-            <label>
-                Silver:
-                <input type="number" value={silver} onChange={e => setSilver(Number(e.target.value))} />
-            </label>
-            <label>
-                Gold:
-                <input type="number" value={gold} onChange={e => setGold(Number(e.target.value))} />
-            </label>
-            <label>
-                Platinum:
-                <input type="number" value={platinum} onChange={e => setPlatinum(Number(e.target.value))} />
-            </label>
+            <div>
+                <label>
+                    Session Date:
+                    <input type="date" value={sessionDate} onChange={e => setSessionDate(e.target.value)} />
+                </label>
+                <button type="button" onClick={handleAddClick}>Add new transaction</button>
+            </div>
+            {transactions.map((transaction, index) => (
+                <div key={index}>
+                    <label>
+                        Transaction Type:
+                        <input type="text" name="transactionType" value={transaction.transactionType} onChange={event => handleInputChange(index, event)} />
+                    </label>
+                    <label>
+                        Notes:
+                        <textarea name="notes" value={transaction.notes} onChange={event => handleInputChange(index, event)} />
+                    </label>
+                    <label>
+                        Copper:
+                        <input type="number" name="copper" value={transaction.copper} onChange={event => handleInputChange(index, event)} />
+                    </label>
+                    <label>
+                        Silver:
+                        <input type="number" name="silver" value={transaction.silver} onChange={event => handleInputChange(index, event)} />
+                    </label>
+                    <label>
+                        Gold:
+                        <input type="number" name="gold" value={transaction.gold} onChange={event => handleInputChange(index, event)} />
+                    </label>
+                    <label>
+                        Platinum:
+                        <input type="number" name="platinum" value={transaction.platinum} onChange={event => handleInputChange(index, event)} />
+                    </label>
+                    <p>Total: {transaction.copper/100 + transaction.silver/10 + transaction.gold + transaction.platinum*10}</p>
+                </div>
+            ))}
             <button type="submit">Submit</button>
         </form>
     );
