@@ -12,7 +12,6 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" component={LandingPage} />
-        <Route path="/item-input" component={ItemForm} />
       </Routes>
     </BrowserRouter>
   )
