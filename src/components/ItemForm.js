@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 
+const sizes = ["Fine", "Diminutive", "Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan", "Colossal"];
+const types = ["Weapon", "Armor", "Magic", "Gear", "Trade Good"];
+
 function ItemForm() {
     const [sessionDate, setSessionDate] = useState(new Date().toISOString().slice(0, 10));
     const [quantity, setQuantity] = useState(1);
     const [itemName, setItemName] = useState('');
     const [unidentified, setUnidentified] = useState(false);
     const [itemType, setItemType] = useState('');
-    const [size, setSize] = useState('');
+    const [size, setSize] = useState('Medium');
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -30,12 +33,12 @@ function ItemForm() {
                 <input type="date" value={sessionDate} onChange={e => setSessionDate(e.target.value)} />
             </label>
             <label>
-                Quantity:
-                <input type="number" value={quantity} onChange={e => setQuantity(Number(e.target.value))} />
+                Item Name:
+                <input type="text" style={{width: '200px'}} value={itemName} onChange={e => setItemName(e.target.value)} />
             </label>
             <label>
-                Item Name:
-                <input type="text" value={itemName} onChange={e => setItemName(e.target.value)} />
+                Quantity:
+                <input type="number" style={{width: '50px'}} value={quantity} onChange={e => setQuantity(Number(e.target.value))} />
             </label>
             <label>
                 Unidentified:
@@ -43,11 +46,15 @@ function ItemForm() {
             </label>
             <label>
                 Type:
-                <input type="text" value={itemType} onChange={e => setItemType(e.target.value)} />
+                <select value={itemType} onChange={e => setItemType(e.target.value)}>
+                    {types.map(type => <option key={type} value={type}>{type}</option>)}
+                </select>
             </label>
             <label>
                 Size:
-                <input type="text" value={size} onChange={e => setSize(e.target.value)} />
+                <select value={size} onChange={e => setSize(e.target.value)}>
+                    {sizes.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
             </label>
             <button type="submit">Submit</button>
         </form>
