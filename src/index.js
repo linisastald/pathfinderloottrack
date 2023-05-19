@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import ItemForm from './components/ItemForm';
 import './App.css';
 import GoldForm from "./components/GoldForm";
+import PartyLoot from "./components/PartyLoot";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/item-input" element={<ItemForm />} />
         <Route path="/gold-input" element={<GoldForm />} />
+        <Route path="/party-loot" element={<PartyLoot />} />
       </Routes>
     </BrowserRouter>
   )
