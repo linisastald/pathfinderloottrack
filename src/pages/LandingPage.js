@@ -3,10 +3,10 @@ import PartyLoot from '../components/PartyLoot';
 import GoldTransactions from '../components/GoldTransactions';
 import ItemForm from '../components/ItemForm';
 import GoldForm from '../components/GoldForm';
-import PartyOwnedItems from '../components/PartyOwnedItems';
-import KeptItems from '../components/KeptItems';
-import SoldItems from '../components/SoldItems';
-import GivenAwayItems from '../components/GivenAwayItems';
+//import PartyOwnedItems from '../components/PartyOwnedItems';
+//import KeptItems from '../components/KeptItems';
+//import SoldItems from '../components/SoldItems';
+//import GivenAwayItems from '../components/GivenAwayItems';
 
 const LandingPage = () => {
     const [activeComponent, setActiveComponent] = useState('');
@@ -22,13 +22,13 @@ const LandingPage = () => {
             case 'PartyLoot':
                 return <PartyLoot />;
             case 'PartyOwnedItems':
-                return <PartyOwnedItems />;
+            //    return <PartyOwnedItems />;
             case 'KeptItems':
-                return <KeptItems />;
+            //    return <KeptItems />;
             case 'SoldItems':
-                return <SoldItems />;
+            //    return <SoldItems />;
             case 'GivenAwayItems':
-                return <GivenAwayItems />;
+            //    return <GivenAwayItems />;
             default:
                 return null;
         }
