@@ -6,7 +6,7 @@ import GoldForm from '../components/GoldForm';
 import PartyOwnedItems from '../components/PartyOwnedItems';
 import KeptItems from '../components/KeptItems';
 import SoldItems from '../components/SoldItems';
-//import GivenAwayItems from '../components/GivenAwayItems';
+import GivenAwayItems from '../components/GivenAwayItems';
 
 const LandingPage = () => {
     const [activeComponent, setActiveComponent] = useState('');
@@ -28,7 +28,7 @@ const LandingPage = () => {
             case 'SoldItems':
                 return <SoldItems />;
             case 'GivenAwayItems':
-            //    return <GivenAwayItems />;
+                return <GivenAwayItems />;
             default:
                 return null;
         }
