@@ -4,8 +4,8 @@ import GoldTransactions from '../components/GoldTransactions';
 import ItemForm from '../components/ItemForm';
 import GoldForm from '../components/GoldForm';
 import PartyOwnedItems from '../components/PartyOwnedItems';
-//import KeptItems from '../components/KeptItems';
-//import SoldItems from '../components/SoldItems';
+import KeptItems from '../components/KeptItems';
+import SoldItems from '../components/SoldItems';
 //import GivenAwayItems from '../components/GivenAwayItems';
 
 const LandingPage = () => {
@@ -24,9 +24,9 @@ const LandingPage = () => {
             case 'PartyOwnedItems':
                 return <PartyOwnedItems />;
             case 'KeptItems':
-            //    return <KeptItems />;
+                return <KeptItems />;
             case 'SoldItems':
-            //    return <SoldItems />;
+                return <SoldItems />;
             case 'GivenAwayItems':
             //    return <GivenAwayItems />;
             default:
