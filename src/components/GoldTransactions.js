@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { subMonths } from 'date-fns';
+import {addMonths} from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
@@ -12,6 +13,8 @@ function GoldTransactions() {
         { id: 4, session_date: '2023-05-04', transaction_type: 'Sale', notes: 'Inn and food', copper: 2, silver: 5, gold: 0, platinum: 0 },
         { id: 5, session_date: '2023-05-05', transaction_type: 'Party Loot Purchase', notes: 'Completed quest', copper: 20, silver: 30, gold: 5, platinum: 1 },
     ]);
+const [startDate, setStartDate] = useState(addMonths(new Date(), -3));
+const [endDate, setEndDate] = useState(new Date());
 
     const totalCopper = transactions.reduce((total, transaction) => total + transaction.copper, 0);
     const totalSilver = transactions.reduce((total, transaction) => total + transaction.silver, 0);
