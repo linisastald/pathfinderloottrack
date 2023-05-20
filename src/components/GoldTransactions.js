@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
-import { subMonths } from 'date-fns';
-import {addMonths} from 'date-fns';
+import { addMonths } from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
-
 
 function GoldTransactions() {
     const [transactions, setTransactions] = useState([
@@ -13,18 +11,23 @@ function GoldTransactions() {
         { id: 4, session_date: '2023-05-04', transaction_type: 'Sale', notes: 'Inn and food', copper: 2, silver: 5, gold: 0, platinum: 0 },
         { id: 5, session_date: '2023-05-05', transaction_type: 'Party Loot Purchase', notes: 'Completed quest', copper: 20, silver: 30, gold: 5, platinum: 1 },
     ]);
-const [startDate, setStartDate] = useState(addMonths(new Date(), -3));
-const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(addMonths(new Date(), -3));
+    const [endDate, setEndDate] = useState(new Date());
+
+    useEffect(() => {
+        const filteredTransactions = transactions.filter(transaction => {
+            const transactionDate = new Date(transaction.session_date);
+            return transactionDate >= startDate && transactionDate <= endDate;
+        });
+        setTransactions(filteredTransactions);
+    }, [startDate, endDate]);
 
     const totalCopper = transactions.reduce((total, transaction) => total + transaction.copper, 0);
     const totalSilver = transactions.reduce((total, transaction) => total + transaction.silver, 0);
     const totalGold = transactions.reduce((total, transaction) => total + transaction.gold, 0);
     const totalPlatinum = transactions.reduce((total, transaction) => total + transaction.platinum, 0);
     const totalValue = totalCopper/100 + totalSilver/10 + totalGold + totalPlatinum*10;
-    const filteredTransactions = transactions.filter(transaction => {
-        const transactionDate = new Date(transaction.session_date);
-        return transactionDate >= startDate && transactionDate <= endDate;
-    });
+
     return (
         <div>
             <h1>Gold Transactions</h1>
