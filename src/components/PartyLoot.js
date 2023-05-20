@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
+import { useHistory } from "react-router-dom";
 
 function PartyLoot() {
+    const history = useHistory();
 const [items, setItems] = useState([
     {id: 1, session_date: '2023-05-01', quantity: 2, item_name: 'Sword', unidentified: false, item_type: 'Weapon', size: 'Medium', avg_believed_value: 50, who_appraised: 'John'},
     {id: 2, session_date: '2023-05-02', quantity: 1, item_name: 'Armor', unidentified: true, item_type: 'Armor', size: 'Large', avg_believed_value: 100, who_appraised: 'Jane'},
@@ -15,7 +17,13 @@ const [items, setItems] = useState([
 ]);
 
     const [selectedItems, setSelectedItems] = useState([]);
-
+    const handleUpdate = () => {
+        if (selectedItems.length > 0) {
+            history.push(`/update/${selectedItems.join(",")}`);
+        } else {
+            alert("No items selected for update");
+        }
+    };
     const handleSelect = (item) => {
         if (selectedItems.includes(item.id)) {
             setSelectedItems(selectedItems.filter(id => id !== item.id));
@@ -66,7 +74,7 @@ const [items, setItems] = useState([
             <button type="button">Keep Self</button>
             <button type="button">Sell</button>
             <button type="button">Trash</button>
-            <button type="button">Update</button>
+            <button type="button" onClick={handleUpdate}>Update</button>
         </div>
     );
 }

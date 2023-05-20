@@ -10,6 +10,7 @@ import PartyOwnedItems from './components/PartyOwnedItems';
 import KeptItems from './components/KeptItems';
 import SoldItems from './components/SoldItems';
 import GivenAwayItems from './components/GivenAwayItems';
+import ItemUpdate from "./components/ItemUpdate";
 
 const App = () => {
   return (
@@ -24,6 +25,8 @@ const App = () => {
         <Route path="/kept-items" component={KeptItems} />
         <Route path="/sold-items" component={SoldItems} />
         <Route path="/given-away-items" component={GivenAwayItems} />
+        <Route path="/update/:id" component={ItemUpdate} />
+
       </Switch>
     </Router>
   );
