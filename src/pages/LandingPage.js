@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import PartyLoot from '../components/PartyLoot';
 import GoldTransactions from '../components/GoldTransactions';
 import ItemForm from '../components/ItemForm';
@@ -11,27 +10,7 @@ import GoldForm from '../components/GoldForm';
 
 const LandingPage = () => {
     const [activeComponent, setActiveComponent] = useState('');
-    const [campaigns, setCampaigns] = useState([]);
-    const [characters, setCharacters] = useState([]);
-    const [selectedCampaign, setSelectedCampaign] = useState(null);
 
-    useEffect(() => {
-        axios.get('/campaign')
-          .then(response => setCampaigns(response.data.campaigns))
-          .catch(error => console.error(error));
-    }, []);
-
-    useEffect(() => {
-        if (selectedCampaign) {
-          axios.get(`/character?campaign_id=${selectedCampaign}`)
-            .then(response => setCharacters(response.data.characters))
-            .catch(error => console.error(error));
-        }
-    }, [selectedCampaign]);
-
-    const handleCampaignChange = (event) => {
-        setSelectedCampaign(event.target.value);
-    };
     const renderComponent = (componentName) => {
         switch(componentName) {
             case 'ItemForm':
@@ -68,23 +47,6 @@ const LandingPage = () => {
                 <button onClick={() => setActiveComponent('SoldItems')}>Sold Items</button>
                 <button onClick={() => setActiveComponent('GivenAwayItems')}>Given Away Items</button>
             </div>
-            <div className="selectors">
-                <select onChange={handleCampaignChange}>
-                    <option>Select Campaign</option>
-                    {campaigns.map(campaign =>
-                      <option key={campaign.id} value={campaign.id}>{campaign.name}</option>
-                    )}
-                </select>
-                {selectedCampaign && (
-                    <select>
-                        <option>Select Character</option>
-                        {characters.map(character =>
-                          <option key={character.id} value={character.id}>{character.name}</option>
-                        )}
-                    </select>
-                )}
-            </div>
-
             {renderComponent(activeComponent)}
         </div>
     );
