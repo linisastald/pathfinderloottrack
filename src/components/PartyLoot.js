@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 function PartyLoot() {
-    const history = useHistory();
+    const navigate = useNavigate();
 const [items, setItems] = useState([
     {id: 1, session_date: '2023-05-01', quantity: 2, item_name: 'Sword', unidentified: false, item_type: 'Weapon', size: 'Medium', avg_believed_value: 50, who_appraised: 'John'},
     {id: 2, session_date: '2023-05-02', quantity: 1, item_name: 'Armor', unidentified: true, item_type: 'Armor', size: 'Large', avg_believed_value: 100, who_appraised: 'Jane'},
@@ -18,11 +18,7 @@ const [items, setItems] = useState([
 
     const [selectedItems, setSelectedItems] = useState([]);
     const handleUpdate = () => {
-        if (selectedItems.length > 0) {
-            history.push(`/update/${selectedItems.join(",")}`);
-        } else {
-            alert("No items selected for update");
-        }
+        navigate(`/item-update/${selectedItems.join(",")}`);
     };
     const handleSelect = (item) => {
         if (selectedItems.includes(item.id)) {
