@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import PartyLoot from './PartyLoot';
-import GoldTransactions from './GoldTransactions';
-import ItemInput from './ItemInput';
-import GoldInput from './GoldInput';
-import PartyOwnedItems from './PartyOwnedItems';
-import KeptItems from './KeptItems';
-import SoldItems from './SoldItems';
-import GivenAwayItems from './GivenAwayItems';
+import PartyLoot from '../components/PartyLoot';
+import GoldTransactions from '../components/GoldTransactions';
+import ItemForm from '../components/ItemForm';
+import GoldForm from '../components/GoldForm';
+import PartyOwnedItems from '../components/PartyOwnedItems';
+import KeptItems from '../components/KeptItems';
+import SoldItems from '../components/SoldItems';
+import GivenAwayItems from '../components/GivenAwayItems';
 
 const LandingPage = () => {
     const [activeComponent, setActiveComponent] = useState('');
 
     const renderComponent = (componentName) => {
         switch(componentName) {
-            case 'ItemInput':
-                return <ItemInput />;
-            case 'GoldInput':
-                return <GoldInput />;
+            case 'ItemForm':
+                return <ItemForm />;
+            case 'GoldForm':
+                return <GoldForm />;
             case 'GoldTransactions':
                 return <GoldTransactions />;
             case 'PartyLoot':
@@ -39,8 +38,8 @@ const LandingPage = () => {
         <div className="landing-page">
             <h1>Welcome to Pathfinder Party Management</h1>
             <div className="links">
-                <button onClick={() => setActiveComponent('ItemInput')}>Item Input</button>
-                <button onClick={() => setActiveComponent('GoldInput')}>Gold Input</button>
+                <button onClick={() => setActiveComponent('ItemForm')}>Item Input</button>
+                <button onClick={() => setActiveComponent('GoldForm')}>Gold Input</button>
                 <button onClick={() => setActiveComponent('GoldTransactions')}>Gold Transactions</button>
                 <button onClick={() => setActiveComponent('PartyLoot')}>Party Loot</button>
                 <button onClick={() => setActiveComponent('PartyOwnedItems')}>Party Owned Items</button>
