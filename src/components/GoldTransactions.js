@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import { subMonths } from 'date-fns';
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 function GoldTransactions() {
     const [transactions, setTransactions] = useState([
@@ -14,10 +18,17 @@ function GoldTransactions() {
     const totalGold = transactions.reduce((total, transaction) => total + transaction.gold, 0);
     const totalPlatinum = transactions.reduce((total, transaction) => total + transaction.platinum, 0);
     const totalValue = totalCopper/100 + totalSilver/10 + totalGold + totalPlatinum*10;
-
+    const filteredTransactions = transactions.filter(transaction => {
+        const transactionDate = new Date(transaction.session_date);
+        return transactionDate >= startDate && transactionDate <= endDate;
+    });
     return (
         <div>
             <h1>Gold Transactions</h1>
+            <div>
+                <DatePicker selected={startDate} onChange={date => setStartDate(date)} selectsStart startDate={startDate} endDate={endDate} />
+                <DatePicker selected={endDate} onChange={date => setEndDate(date)} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} />
+            </div>
             <table style={{borderCollapse: 'collapse'}}>
                 <thead>
                 <tr>
