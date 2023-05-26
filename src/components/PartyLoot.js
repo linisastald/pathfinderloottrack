@@ -83,7 +83,6 @@ function PartyLoot() {
             <button type="button">Sell</button>
             <button type="button">Trash</button>
             <button type="button" onClick={handleUpdate}>Update</button>
-            <button onClick={() => setActiveComponent('GivenAwayItems')}>Given Away Items</button>
         </div>
     );
 }
