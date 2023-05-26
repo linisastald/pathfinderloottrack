@@ -69,7 +69,7 @@ function ItemForm() {
                 <div key={index}>
                     <label>
                         Item Name:
-                        <input type="text" tabIndex={`${2 + index}`} style={{width: '200px'}} value={item.itemName} onChange={e => updateItem(index, 'itemName', e.target.value)} />
+                        <input type="text" tabIndex={`${2 + index}`} style={{width: '200px'}} value={item.itemName} onChange={e => updateItem(index, 'name', e.target.value)} />
                     </label>
                     <label>
                         Quantity:
@@ -81,7 +81,7 @@ function ItemForm() {
                     </label>
                     <label>
                         Type:
-                        <select tabIndex={`${2 + items.length * 3 + index}`} value={item.itemType} onChange={e => updateItem(index, 'itemType', e.target.value)}>
+                        <select tabIndex={`${2 + items.length * 3 + index}`} value={item.itemType} onChange={e => updateItem(index, 'type', e.target.value)}>
                             {types.map(type => <option key={type} value={type}>{type}</option>)}
                         </select>
                     </label>
