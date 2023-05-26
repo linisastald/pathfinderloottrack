@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 function PartyLoot() {
     const navigate = useNavigate();
@@ -11,9 +11,20 @@ function PartyLoot() {
             const response = await fetch('http://localhost:5000/item');
             if (response.ok) {
                 const data = await response.json();
-                setItems(data.items);
+                setItems(data.items.map(item => ({
+                    id: item.id,
+                    session_date: item.session_date,
+                    quantity: item.quantity,
+                    item_name: item.name,
+                    unidentified: item.unidentified,
+                    item_type: item.type,
+                    size: item.size,
+                    avg_believed_value: item.cost,
+                    who_appraised: item.who,
+                })));
             }
         }
+
         fetchItems();
     }, []);
 
@@ -50,7 +61,8 @@ function PartyLoot() {
                 {items.map(item => (
                     <tr key={item.id}>
                         <td style={{border: '1px solid white'}}>
-                            <input type="checkbox" onChange={() => handleSelect(item)} checked={selectedItems.includes(item.id)} />
+                            <input type="checkbox" onChange={() => handleSelect(item)}
+                                   checked={selectedItems.includes(item.id)}/>
                         </td>
                         <td style={{border: '1px solid white'}}>{new Date(item.session_date).toLocaleDateString()}</td>
                         <td style={{border: '1px solid white'}}>{item.quantity}</td>
