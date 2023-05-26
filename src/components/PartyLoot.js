@@ -8,7 +8,7 @@ function PartyLoot() {
 
     useEffect(() => {
         async function fetchItems() {
-            const response = await fetch('http://localhost:5000/item');
+            const response = await fetch('http://192.168.0.64:5000/item');
             if (response.ok) {
                 const data = await response.json();
                 setItems(data.items.map(item => ({
