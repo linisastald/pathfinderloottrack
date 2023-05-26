@@ -19,7 +19,7 @@ function ItemForm() {
         const itemsWithDate = items.map(item => ({...item, sessionDate}));
 
         itemsWithDate.forEach((item) => {
-            axios.post('http://localhost:5000/item', item)
+            axios.post('http://192.168.0.64:5000/item', item)
                 .then(response => {
                     console.log(response);
                 })
