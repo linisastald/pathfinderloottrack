@@ -8,9 +8,9 @@ function ItemForm() {
     const [sessionDate, setSessionDate] = useState(new Date().toISOString().slice(0, 10));
     const [items, setItems] = useState([{
         quantity: 1,
-        itemName: '',
+        name: '',
         unidentified: false,
-        itemType: '',
+        type: '',
         size: 'Medium'
     }]);
 
@@ -34,9 +34,9 @@ function ItemForm() {
             ...items,
             {
                 quantity: 1,
-                itemName: '',
+                name: '',
                 unidentified: false,
-                itemType: '',
+                type: '',
                 size: 'Medium'
             }
         ]);
@@ -69,7 +69,7 @@ function ItemForm() {
                 <div key={index}>
                     <label>
                         Item Name:
-                        <input type="text" tabIndex={`${2 + index}`} style={{width: '200px'}} value={item.itemName} onChange={e => updateItem(index, 'name', e.target.value)} />
+                        <input type="text" tabIndex={`${2 + index}`} style={{width: '200px'}} value={item.name} onChange={e => updateItem(index, 'name', e.target.value)} />
                     </label>
                     <label>
                         Quantity:
@@ -81,7 +81,7 @@ function ItemForm() {
                     </label>
                     <label>
                         Type:
-                        <select tabIndex={`${2 + items.length * 3 + index}`} value={item.itemType} onChange={e => updateItem(index, 'type', e.target.value)}>
+                        <select tabIndex={`${2 + items.length * 3 + index}`} value={item.type} onChange={e => updateItem(index, 'type', e.target.value)}>
                             {types.map(type => <option key={type} value={type}>{type}</option>)}
                         </select>
                     </label>
