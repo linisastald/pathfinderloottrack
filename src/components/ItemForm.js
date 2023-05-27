@@ -5,7 +5,7 @@ const sizes = ["Fine", "Diminutive", "Tiny", "Small", "Medium", "Large", "Huge",
 const types = ["Weapon", "Armor", "Magic", "Gear", "Trade Good"];
 
 function ItemForm() {
-    const [sessionDate, setSessionDate] = useState(new Date().toISOString().slice(0, 10));
+    const [session_date, setSessionDate] = useState(new Date().toISOString().slice(0, 10));
     const [items, setItems] = useState([{
         quantity: 1,
         name: '',
@@ -16,7 +16,7 @@ function ItemForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const itemsWithDate = items.map(item => ({...item, sessionDate}));
+        const itemsWithDate = items.map(item => ({...item, session_date}));
 
         itemsWithDate.forEach((item) => {
             axios.post('http://192.168.0.64:5000/item', item)
@@ -61,7 +61,7 @@ function ItemForm() {
             <div>
                 <label>
                     Session Date:
-                    <input type="date" tabIndex="1" value={sessionDate} onChange={e => setSessionDate(e.target.value)} />
+                    <input type="date" tabIndex="1" value={session_date} onChange={e => setSessionDate(e.target.value)} />
                 </label>
                 <button type="button" tabIndex={`${2 + items.length * 5}`} onClick={addItem}>Add Item</button>
             </div>
