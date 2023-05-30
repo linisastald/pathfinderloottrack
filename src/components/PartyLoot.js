@@ -8,54 +8,53 @@ function PartyLoot() {
     const [characters, setCharacters] = useState([]);
     const [selectedCharacter, setSelectedCharacter] = useState('');
 
+    async function fetchItems() {
+        const response = await fetch('http://192.168.0.64:5000/item/status/none');
+        if (response.ok) {
+            const data = await response.json();
+            const items = data.items.map(item => ({
+                id: item.id,
+                session_date: item.session_date,
+                quantity: item.quantity,
+                item_name: item.name,
+                unidentified: item.unidentified,
+                item_type: item.type,
+                size: item.size,
+                avg_believed_value: item.cost,
+                who_appraised: item.who,
+            }));
+
+            const newItems = [];
+
+            items.forEach(item => {
+                const existingItem = newItems.find(i => i.item_name === item.item_name && i.item_type === item.item_type && i.size === item.size);
+                if (existingItem) {
+                    existingItem.quantity += item.quantity;
+                    existingItem.session_dates.push(item.session_date);
+                } else {
+                    newItems.push({
+                        ...item,
+                        session_dates: [item.session_date],
+                    });
+                }
+            });
+
+            setItems(newItems);
+        }
+    }
+
+    async function fetchCharacters() {
+        const response = await fetch('http://192.168.0.64:5000/character');
+        if (response.ok) {
+            const data = await response.json();
+            setCharacters(data.characters);
+        }
+    }
+
     useEffect(() => {
-        async function fetchItems() {
-            const response = await fetch('http://192.168.0.64:5000/item/status/none');
-            if (response.ok) {
-                const data = await response.json();
-                const items = data.items.map(item => ({
-                    id: item.id,
-                    session_date: item.session_date,
-                    quantity: item.quantity,
-                    item_name: item.name,
-                    unidentified: item.unidentified,
-                    item_type: item.type,
-                    size: item.size,
-                    avg_believed_value: item.cost,
-                    who_appraised: item.who,
-                }));
-
-                const newItems = [];
-
-                items.forEach(item => {
-                    const existingItem = newItems.find(i => i.item_name === item.item_name && i.item_type === item.item_type && i.size === item.size);
-                    if (existingItem) {
-                        existingItem.quantity += item.quantity;
-                        existingItem.session_dates.push(item.session_date);
-                    } else {
-                        newItems.push({
-                            ...item,
-                            session_dates: [item.session_date],
-                        });
-                    }
-                });
-
-                setItems(newItems);
-            }
-        }
-
-        async function fetchCharacters() {
-            const response = await fetch('http://192.168.0.64:5000/character');
-            if (response.ok) {
-                const data = await response.json();
-                setCharacters(data.characters);
-            }
-        }
-
         fetchItems();
         fetchCharacters();
     }, []);
-
     const handleUpdate = () => {
         navigate(`/item-update/${selectedItems.join(",")}`);
     };
@@ -78,6 +77,7 @@ function PartyLoot() {
                 body: JSON.stringify({status, who}),
             });
         }
+        await fetchItems();
     };
 
     return (
