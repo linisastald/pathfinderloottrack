@@ -10,17 +10,18 @@ function GoldTransactions() {
     const [endDate, setEndDate] = useState(new Date());
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://192.168.0.64:5000/gold');
-                setTransactions(response.data);
-            } catch (error) {
-                console.error('There was an error!', error);
-            }
-        };
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('http://192.168.0.64:5000/gold');
+            setTransactions(response.data.golds);
+        } catch (error) {
+            console.error('There was an error!', error);
+        }
+    };
 
-        fetchData();
-    }, []);
+    fetchData();
+}, []);
+
 
     useEffect(() => {
         const filteredTransactions = transactions.filter(transaction => {
