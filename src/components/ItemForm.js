@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const sizes = ["Fine", "Diminutive", "Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan", "Colossal"];
-const types = ["Weapon", "Armor", "Magic", "Gear", "Trade Good"];
+const types = ["Weapon", "Armor", "Magic", "Gear", "Trade Good", "Other"];
 
 function ItemForm() {
     const [session_date, setSessionDate] = useState(new Date().toISOString().slice(0, 10));
@@ -13,20 +13,27 @@ function ItemForm() {
         type: '',
         size: 'Medium'
     }]);
+    const [message, setMessage] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const itemsWithDate = items.map(item => ({...item, session_date}));
 
-        itemsWithDate.forEach((item) => {
-            axios.post('http://192.168.0.64:5000/item', item)
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.error('There was an error!', error);
-                });
-        });
+        for(const item of itemsWithDate) {
+            try {
+                await axios.post('http://192.168.0.64:5000/item', item);
+                setMessage('Item(s) added!');
+                setItems([{
+                    quantity: 1,
+                    name: '',
+                    unidentified: false,
+                    type: 'Other',
+                    size: 'Medium'
+                }]);
+            } catch (error) {
+                console.error('There was an error!', error);
+            }
+        }
     };
 
     const addItem = () => {
@@ -94,6 +101,7 @@ function ItemForm() {
                 </div>
             ))}
             <button type="submit" tabIndex={`${3 + items.length * 5}`}>Submit</button>
+            {message && <div>{message}</div>}
         </form>
     );
 }
