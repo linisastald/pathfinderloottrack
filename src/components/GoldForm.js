@@ -6,7 +6,7 @@ const transactionTypes = ["Withdrawal", "Deposit", "Purchase", "Sale", "Party Lo
 function GoldForm() {
     const [sessionDate, setSessionDate] = useState(new Date().toISOString().slice(0, 10));
     const [transactions, setTransactions] = useState([
-        { transactionType: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 },
+        { transaction_type: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 },
     ]);
 
     const handleInputChange = (index, event) => {
@@ -20,7 +20,7 @@ function GoldForm() {
     };
 
     const handleAddClick = () => {
-        setTransactions([...transactions, { transactionType: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 }]);
+        setTransactions([...transactions, { transaction_type: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 }]);
     };
 
     const handleSubmit = async (event) => {
@@ -33,7 +33,7 @@ function GoldForm() {
                 console.error('There was an error!', error);
             }
         }
-        setTransactions([{ transactionType: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 }]);
+        setTransactions([{ transaction_type: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 }]);
     };
 
     // Check if at least one transaction has total > 0.
@@ -52,7 +52,7 @@ function GoldForm() {
                 <div key={index}>
                     <label>
                         Transaction Type:
-                        <select name="transactionType" value={transaction.transactionType} onChange={event => handleInputChange(index, event)}>
+                        <select name="transaction_type" value={transaction.transaction_type} onChange={event => handleInputChange(index, event)}>
                             <option value="">--Please choose an option--</option>
                             {transactionTypes.map(type => (
                                 <option key={type} value={type}>
