@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const sizes = ["Fine", "Diminutive", "Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan", "Colossal"];
-const types = ["Weapon", "Armor", "Magic", "Gear", "Trade Good", "Other"];
+const types = ["Other", "Weapon", "Armor", "Magic", "Gear", "Trade Good"];
 
 function ItemForm() {
     const [session_date, setSessionDate] = useState(new Date().toISOString().slice(0, 10));
@@ -10,7 +10,7 @@ function ItemForm() {
         quantity: 1,
         name: '',
         unidentified: false,
-        type: '',
+        type: 'Other',
         size: 'Medium'
     }]);
     const [message, setMessage] = useState('');
@@ -43,7 +43,7 @@ function ItemForm() {
                 quantity: 1,
                 name: '',
                 unidentified: false,
-                type: '',
+                type: 'Other',
                 size: 'Medium'
             }
         ]);
