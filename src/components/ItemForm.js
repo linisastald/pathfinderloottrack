@@ -21,7 +21,8 @@ function ItemForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const itemsWithDate = items.map(item => ({...item, session_date}));
+        const itemsWithName = items.filter(item => item.name.trim() !== '');
+        const itemsWithDate = itemsWithName.map(item => ({...item, session_date}));
 
         for(const item of itemsWithDate) {
             try {
@@ -72,6 +73,9 @@ function ItemForm() {
         width: 'auto',
         margin: '0 auto'
     };
+
+    // Check if at least one item has a name.
+    const isSubmitDisabled = !items.some(item => item.name.trim() !== '');
 
     return (
         <form onSubmit={handleSubmit} style={formStyle}>
@@ -124,7 +128,7 @@ function ItemForm() {
                     </label>
                 </div>
             ))}
-            <button type="submit" tabIndex={`${3 + items.length * 8}`}>Submit</button>
+            <button type="submit" tabIndex={`${3 + items.length * 8}`} disabled={isSubmitDisabled}>Submit</button>
             {message && <div>{message}</div>}
         </form>
     );
