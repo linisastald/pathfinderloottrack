@@ -83,7 +83,7 @@ function PartyLoot() {
                                    checked={selectedItems.includes(item.id)}/>
                         </td>
                         <td style={{border: '1px solid white'}}>
-                            {item.session_dates.map(date => new Date(date).toLocaleDateString()).join(', ')}
+                            {item.session_dates ? item.session_dates.map(date => new Date(date).toLocaleDateString()).join(', ') : ''}
                         </td>
                         <td style={{border: '1px solid white'}}>{item.quantity}</td>
                         <td style={{border: '1px solid white'}}>{item.item_name}</td>
