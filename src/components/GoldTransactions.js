@@ -2,17 +2,25 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { addMonths } from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
 
 function GoldTransactions() {
-    const [transactions, setTransactions] = useState([
-        { id: 1, session_date: '2023-05-01', transaction_type: 'Withdrawal', notes: 'Loot from the dungeon', copper: 10, silver: 20, gold: 2, platinum: 0 },
-        { id: 2, session_date: '2023-05-02', transaction_type: 'Deposit', notes: 'Bought new gear', copper: 5, silver: 10, gold: 1, platinum: 0 },
-        { id: 3, session_date: '2023-05-03', transaction_type: 'Purchase', notes: 'Sold old gear', copper: 15, silver: 25, gold: 3, platinum: 0 },
-        { id: 4, session_date: '2023-05-04', transaction_type: 'Sale', notes: 'Inn and food', copper: 2, silver: 5, gold: 0, platinum: 0 },
-        { id: 5, session_date: '2023-05-05', transaction_type: 'Party Loot Purchase', notes: 'Completed quest', copper: 20, silver: 30, gold: 5, platinum: 1 },
-    ]);
+    const [transactions, setTransactions] = useState([]);
     const [startDate, setStartDate] = useState(addMonths(new Date(), -3));
     const [endDate, setEndDate] = useState(new Date());
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://192.168.0.64:5000/gold');
+                setTransactions(response.data);
+            } catch (error) {
+                console.error('There was an error!', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const filteredTransactions = transactions.filter(transaction => {
