@@ -81,7 +81,7 @@ function GoldForm() {
                         Notes:
                         <input type="text" name="notes" value={transaction.notes} onChange={event => handleInputChange(index, event)} />
                     </label>
-                    <p>Total: {transaction.copper + transaction.silver * 10 + transaction.gold * 100 + transaction.platinum * 1000}</p>
+                    <p>Total: {transaction.copper / 100 + transaction.silver / 10 + transaction.gold  + transaction.platinum * 10}</p>
                 </div>
             ))}
             <button type="submit" disabled={isSubmitDisabled}>Submit</button>
