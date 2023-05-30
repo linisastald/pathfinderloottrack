@@ -23,18 +23,27 @@ function GoldForm() {
         setTransactions([...transactions, { transaction_type: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 }]);
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        for (const transaction of transactions) {
-            transaction.session_date = sessionDate;
-            try {
-                await axios.post('http://192.168.0.64:5000/gold', transaction);
-            } catch (error) {
-                console.error('There was an error!', error);
-            }
+const handleSubmit = async (event) => {
+    event.preventDefault();
+    for (const transaction of transactions) {
+        transaction.session_date = sessionDate;
+
+        // Negate the amounts if the transaction type is "Withdrawal", "Purchase", or "Party Loot Purchase"
+        if (["Withdrawal", "Purchase", "Party Loot Purchase"].includes(transaction.transaction_type)) {
+            transaction.copper = -Math.abs(transaction.copper);
+            transaction.silver = -Math.abs(transaction.silver);
+            transaction.gold = -Math.abs(transaction.gold);
+            transaction.platinum = -Math.abs(transaction.platinum);
         }
-        setTransactions([{ transaction_type: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 }]);
-    };
+
+        try {
+            await axios.post('http://192.168.0.64:5000/gold', transaction);
+        } catch (error) {
+            console.error('There was an error!', error);
+        }
+    }
+    setTransactions([{ transaction_type: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 }]);
+};
 
     // Check if at least one transaction has total > 0.
     const isSubmitDisabled = !transactions.some(transaction => transaction.copper + transaction.silver * 10 + transaction.gold * 100 + transaction.platinum * 1000 > 0);
