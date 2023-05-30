@@ -10,7 +10,7 @@ function PartyLoot() {
 
     useEffect(() => {
         async function fetchItems() {
-            const response = await fetch('http://192.168.0.64:5000/item');
+            const response = await fetch('http://192.168.0.64:5000/item/status/none');
             if (response.ok) {
                 const data = await response.json();
                 const items = data.items.map(item => ({
