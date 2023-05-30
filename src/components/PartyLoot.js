@@ -45,7 +45,7 @@ function PartyLoot() {
             <table style={{borderCollapse: 'collapse'}}>
                 <thead>
                 <tr>
-                    <th style={{border: '1px solid white'}}>Select</th>
+                    <th style={{border: '1px solid white'}}></th>
                     <th style={{border: '1px solid white'}}>Session Date</th>
                     <th style={{border: '1px solid white'}}>Quantity</th>
                     <th style={{border: '1px solid white'}}>Item Name</th>
