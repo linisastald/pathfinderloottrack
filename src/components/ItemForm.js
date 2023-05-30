@@ -69,7 +69,7 @@ function ItemForm() {
         display: 'flex',
         flexDirection: 'column',
         gap: '20px',
-        width: '1000px',
+        width: 'auto',
         margin: '0 auto'
     };
 
