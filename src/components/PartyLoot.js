@@ -78,6 +78,7 @@ function PartyLoot() {
             });
         }
         await fetchItems();
+        setSelectedItems([]);
     };
 
     return (
