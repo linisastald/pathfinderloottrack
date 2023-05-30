@@ -5,6 +5,8 @@ function PartyLoot() {
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
+    const [characters, setCharacters] = useState([]);
+    const [selectedCharacter, setSelectedCharacter] = useState('');
 
     useEffect(() => {
         async function fetchItems() {
@@ -42,7 +44,16 @@ function PartyLoot() {
             }
         }
 
+        async function fetchCharacters() {
+            const response = await fetch('http://192.168.0.64:5000/character');
+            if (response.ok) {
+                const data = await response.json();
+                setCharacters(data.characters);
+            }
+        }
+
         fetchItems();
+        fetchCharacters();
     }, []);
 
     const handleUpdate = () => {
@@ -54,6 +65,18 @@ function PartyLoot() {
             setSelectedItems(selectedItems.filter(id => id !== item.id));
         } else {
             setSelectedItems([...selectedItems, item.id]);
+        }
+    };
+
+    const handleStatusUpdate = async (status, who) => {
+        for (let itemId of selectedItems) {
+            await fetch(`http://192.168.0.64:5000/item/${itemId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({status, who}),
+            });
         }
     };
 
@@ -84,9 +107,8 @@ function PartyLoot() {
                         </td>
                         <td style={{border: '1px solid white'}}>
                             {item.session_dates
-    ? [...new Set(item.session_dates)].map(date => new Date(date).toLocaleDateString()).join(', ')
-    : ''}
-
+                                ? [...new Set(item.session_dates)].map(date => new Date(date).toLocaleDateString()).join(', ')
+                                : ''}
                         </td>
                         <td style={{border: '1px solid white'}}>{item.quantity}</td>
                         <td style={{border: '1px solid white'}}>{item.item_name}</td>
@@ -100,11 +122,17 @@ function PartyLoot() {
                 ))}
                 </tbody>
             </table>
+            <select onChange={(e) => setSelectedCharacter(e.target.value)}>
+                <option value="">Select a character</option>
+                {characters.map(character => (
+                    <option value={character.id} key={character.id}>{character.name}</option>
+                ))}
+            </select>
             <button type="button">Appraise</button>
-            <button type="button">Keep Party</button>
-            <button type="button">Keep Self</button>
+            <button type="button" onClick={() => handleStatusUpdate('Keep Party')}>Keep Party</button>
+            <button type="button" onClick={() => handleStatusUpdate('Keep Self', selectedCharacter)}>Keep Self</button>
             <button type="button">Sell</button>
-            <button type="button">Trash</button>
+            <button type="button" onClick={() => handleStatusUpdate('Trash')}>Trash</button>
             <button type="button" onClick={handleUpdate}>Update</button>
         </div>
     );
