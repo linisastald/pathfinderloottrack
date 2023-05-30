@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const transactionTypes = ["Withdrawal", "Deposit", "Purchase", "Sale", "Party Loot Purchase"];
 
@@ -22,10 +23,21 @@ function GoldForm() {
         setTransactions([...transactions, { transactionType: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 }]);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log({ sessionDate, transactions });
+        for (const transaction of transactions) {
+            transaction.sessionDate = sessionDate;
+            try {
+                await axios.post('http://192.168.0.64:5000/gold', transaction);
+            } catch (error) {
+                console.error('There was an error!', error);
+            }
+        }
+        setTransactions([{ transactionType: '', notes: '', copper: 0, silver: 0, gold: 0, platinum: 0 }]);
     };
+
+    // Check if at least one transaction has total > 0.
+    const isSubmitDisabled = !transactions.some(transaction => transaction.copper + transaction.silver * 10 + transaction.gold * 100 + transaction.platinum * 1000 > 0);
 
     return (
         <form onSubmit={handleSubmit}>
@@ -69,10 +81,10 @@ function GoldForm() {
                         Notes:
                         <input type="text" name="notes" value={transaction.notes} onChange={event => handleInputChange(index, event)} />
                     </label>
-                    <p>Total: {transaction.copper/100 + transaction.silver/10 + transaction.gold + transaction.platinum*10}</p>
+                    <p>Total: {transaction.copper + transaction.silver * 10 + transaction.gold * 100 + transaction.platinum * 1000}</p>
                 </div>
             ))}
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={isSubmitDisabled}>Submit</button>
         </form>
     );
 }
