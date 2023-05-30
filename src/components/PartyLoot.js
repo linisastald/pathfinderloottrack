@@ -8,15 +8,15 @@ function PartyLoot() {
     const [characters, setCharacters] = useState([]);
     const [selectedCharacter, setSelectedCharacter] = useState('');
 
-    const fetchItems = async () => {
-        const response = await fetch('http://192.168.0.64:5000/item/status/none');
-        if (response.ok) {
-            const data = await response.json();
-            setItems(data.items);
-        }
-    };
-
     useEffect(() => {
+        async function fetchItems() {
+            const response = await fetch('http://192.168.0.64:5000/item/status/none');
+            if (response.ok) {
+                const data = await response.json();
+                setItems(data.items);
+            }
+        }
+
         async function fetchCharacters() {
             const response = await fetch('http://192.168.0.64:5000/character');
             if (response.ok) {
