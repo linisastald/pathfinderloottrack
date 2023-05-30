@@ -11,7 +11,7 @@ function PartyLoot() {
             const response = await fetch('http://192.168.0.64:5000/item');
             if (response.ok) {
                 const data = await response.json();
-                setItems(data.items.map(item => ({
+                const items = data.items.map(item => ({
                     id: item.id,
                     session_date: item.session_date,
                     quantity: item.quantity,
@@ -21,7 +21,24 @@ function PartyLoot() {
                     size: item.size,
                     avg_believed_value: item.cost,
                     who_appraised: item.who,
-                })));
+                }));
+
+                const newItems = [];
+
+                items.forEach(item => {
+                    const existingItem = newItems.find(i => i.item_name === item.item_name && i.item_type === item.item_type && i.size === item.size);
+                    if (existingItem) {
+                        existingItem.quantity += item.quantity;
+                        existingItem.session_dates.push(item.session_date);
+                    } else {
+                        newItems.push({
+                            ...item,
+                            session_dates: [item.session_date],
+                        });
+                    }
+                });
+
+                setItems(newItems);
             }
         }
 
@@ -31,6 +48,7 @@ function PartyLoot() {
     const handleUpdate = () => {
         navigate(`/item-update/${selectedItems.join(",")}`);
     };
+
     const handleSelect = (item) => {
         if (selectedItems.includes(item.id)) {
             setSelectedItems(selectedItems.filter(id => id !== item.id));
@@ -46,7 +64,7 @@ function PartyLoot() {
                 <thead>
                 <tr>
                     <th style={{border: '1px solid white'}}></th>
-                    <th style={{border: '1px solid white'}}>Session Date</th>
+                    <th style={{border: '1px solid white'}}>Session Dates</th>
                     <th style={{border: '1px solid white'}}>Quantity</th>
                     <th style={{border: '1px solid white'}}>Item Name</th>
                     <th style={{border: '1px solid white'}}>Unidentified</th>
@@ -64,7 +82,9 @@ function PartyLoot() {
                             <input type="checkbox" onChange={() => handleSelect(item)}
                                    checked={selectedItems.includes(item.id)}/>
                         </td>
-                        <td style={{border: '1px solid white'}}>{new Date(item.session_date).toLocaleDateString()}</td>
+                        <td style={{border: '1px solid white'}}>
+                            {item.session_dates.map(date => new Date(date).toLocaleDateString()).join(', ')}
+                        </td>
                         <td style={{border: '1px solid white'}}>{item.quantity}</td>
                         <td style={{border: '1px solid white'}}>{item.item_name}</td>
                         <td style={{border: '1px solid white'}}>{item.unidentified ? 'Yes' : 'No'}</td>
