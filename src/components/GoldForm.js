@@ -26,7 +26,7 @@ function GoldForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         for (const transaction of transactions) {
-            transaction.sessionDate = sessionDate;
+            transaction.session_date = sessionDate;
             try {
                 await axios.post('http://192.168.0.64:5000/gold', transaction);
             } catch (error) {
