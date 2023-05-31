@@ -182,7 +182,7 @@ function PartyLoot() {
             <button type="button">Appraise</button>
             <button type="button" onClick={() => handleStatusUpdate('Keep Party')}>Keep Party</button>
             <button type="button" onClick={() => handleStatusUpdate('Keep Self', selectedCharacter)}>Keep Self</button>
-            <button type="button">Sell</button>
+            <button type="button" onClick={handleSell}>Sell</button>
             <button type="button" onClick={() => handleStatusUpdate('Trash')}>Trash</button>
             <button type="button" onClick={handleUpdate}>Update</button>
         </div>
