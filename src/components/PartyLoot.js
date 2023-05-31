@@ -81,55 +81,73 @@ function PartyLoot() {
         await fetchItems();
         setSelectedItems([]);
     };
-    const handleSell = async () => {
-        const now = new Date().toISOString(); // Current date
-        for (let itemId of selectedItems) {
-            const item = items.find(i => i.id === itemId);
+const handleSell = async () => {
+    let totalSellValueInCopper = 0;
+    let itemCount = 0;
 
-            const sellValue = item.item_type === 'Trade Good' ? item.avg_believed_value :
-                Math.min(item.avg_believed_value, item.avg_believed_value * 0.5);
+    for (let itemId of selectedItems) {
+        const itemResponse = await fetch(`http://192.168.0.64:5000/item/${itemId}`);
+        const item = await itemResponse.json();
 
-            let sellValueInCopper = sellValue * 100; // Convert gold to copper
-
-            const gold = Math.floor(sellValueInCopper / 100);
-            sellValueInCopper -= gold * 100;
-
-            const silver = Math.floor(sellValueInCopper / 10);
-            sellValueInCopper -= silver * 10;
-
-            const copper = sellValueInCopper;
-
-            const transaction = {
-                session_date: now,
-                transaction_type: 'Sale',
-                notes: `Sold ${item.item_name}`,
-                copper: copper,
-                silver: silver,
-                gold: gold,
-                platinum: 0
-            };
-
-            // Create gold transaction
-            await fetch(`http://192.168.0.64:5000/gold`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(transaction),
-            });
-
-            // Update item status
-            await fetch(`http://192.168.0.64:5000/item/${itemId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({status: 'sold'}),
-            });
+        // If item doesn't have an associated value, skip the rest of this iteration
+        if (!item.avg_believed_value && !item.real_value) {
+            continue;
         }
-        await fetchItems();
-        setSelectedItems([]);
+
+        let sellValue = item.avg_believed_value * 0.5; // Assume avg_believed_value is in gold
+
+        if (item.real_value && sellValue > item.real_value * 0.5) {
+            sellValue = item.real_value * 0.5;
+        }
+
+        if (item.item_type !== 'Trade Good') {
+            sellValue = Math.floor(sellValue);
+        }
+
+        // Convert sellValue to copper for easier calculations
+        totalSellValueInCopper += sellValue * 100; // Assuming sellValue is in gold
+        itemCount++;
+
+        await fetch(`http://192.168.0.64:5000/item/${itemId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({status: 'Sold', who: selectedCharacter}),
+        });
+    }
+
+    const totalGold = Math.floor(totalSellValueInCopper / 100);
+    totalSellValueInCopper -= totalGold * 100;
+
+    const totalSilver = Math.floor(totalSellValueInCopper / 10);
+    totalSellValueInCopper -= totalSilver * 10;
+
+    const totalCopper = totalSellValueInCopper;
+
+    const transaction = {
+        session_date: new Date().toISOString(),
+        transaction_type: 'Sale',
+        notes: `Sold ${itemCount} items`,
+        copper: totalCopper,
+        silver: totalSilver,
+        gold: totalGold,
+        platinum: 0
     };
+
+    await fetch('http://192.168.0.64:5000/gold', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(transaction),
+    });
+
+    await fetchItems();
+    setSelectedItems([]);
+};
+
+
 
     return (
         <div>

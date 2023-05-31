@@ -1,32 +1,86 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+
 
 function GivenAwayItems() {
-    const [items, setItems] = useState([
-        {id: 1, session_date: '2023-05-01', quantity: 2, item_name: 'Sword', item_type: 'Weapon', size: 'Medium'},
-        // ... similarly update other items as per the new fields
-    ]);
+
+    const [items, setItems] = useState([]);
+
+    async function fetchItems() {
+        const response = await fetch('http://192.168.0.64:5000/item/status/none');
+        if (response.ok) {
+            const data = await response.json();
+            const items = data.items.map(item => ({
+                id: item.id,
+                session_date: item.session_date,
+                quantity: item.quantity,
+                item_name: item.name,
+                unidentified: item.unidentified,
+                item_type: item.type,
+                size: item.size,
+                avg_believed_value: item.cost,
+                who_appraised: item.who,
+            }));
+
+            const newItems = [];
+
+            items.forEach(item => {
+                const existingItem = newItems.find(i => i.item_name === item.item_name && i.item_type === item.item_type && i.size === item.size);
+                if (existingItem) {
+                    existingItem.quantity += item.quantity;
+                    existingItem.session_dates.push(item.session_date);
+                } else {
+                    newItems.push({
+                        ...item,
+                        session_dates: [item.session_date],
+                    });
+                }
+            });
+
+            setItems(newItems);
+        }
+    }
+
+
+
+    useEffect(() => {
+        fetchItems();
+    }, []);
+
+
+
 
     return (
         <div>
-            <h1>Given Away Items</h1>
+            <h1>Party Loot</h1>
             <table style={{borderCollapse: 'collapse'}}>
                 <thead>
                 <tr>
-                    <th style={{border: '1px solid white'}}>Session Date</th>
+                    <th style={{border: '1px solid white'}}>Session Dates</th>
                     <th style={{border: '1px solid white'}}>Quantity</th>
                     <th style={{border: '1px solid white'}}>Item Name</th>
                     <th style={{border: '1px solid white'}}>Type</th>
                     <th style={{border: '1px solid white'}}>Size</th>
+                    <th style={{border: '1px solid white'}}>Average Believed Value</th>
+                    <th style={{border: '1px solid white'}}>50% Average Believed Value</th>
+                    <th style={{border: '1px solid white'}}>Who Appraised?</th>
                 </tr>
                 </thead>
                 <tbody>
                 {items.map(item => (
                     <tr key={item.id}>
-                        <td style={{border: '1px solid white'}}>{new Date(item.session_date).toLocaleDateString()}</td>
+                        <td style={{border: '1px solid white'}}>
+                            {item.session_dates
+                                ? [...new Set(item.session_dates)].map(date => new Date(date).toLocaleDateString()).join(', ')
+                                : ''}
+                        </td>
                         <td style={{border: '1px solid white'}}>{item.quantity}</td>
                         <td style={{border: '1px solid white'}}>{item.item_name}</td>
+                        <td style={{border: '1px solid white'}}>{item.unidentified ? 'Yes' : 'No'}</td>
                         <td style={{border: '1px solid white'}}>{item.item_type}</td>
                         <td style={{border: '1px solid white'}}>{item.size}</td>
+                        <td style={{border: '1px solid white'}}>{item.avg_believed_value}</td>
+                        <td style={{border: '1px solid white'}}>{item.avg_believed_value * 0.5}</td>
+                        <td style={{border: '1px solid white'}}>{item.who_appraised}</td>
                     </tr>
                 ))}
                 </tbody>
