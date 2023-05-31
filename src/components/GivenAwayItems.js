@@ -47,8 +47,6 @@ function GivenAwayItems() {
     }, []);
 
 
-
-
     return (
         <div>
             <h1>Party Loot</h1>
@@ -60,9 +58,6 @@ function GivenAwayItems() {
                     <th style={{border: '1px solid white'}}>Item Name</th>
                     <th style={{border: '1px solid white'}}>Type</th>
                     <th style={{border: '1px solid white'}}>Size</th>
-                    <th style={{border: '1px solid white'}}>Average Believed Value</th>
-                    <th style={{border: '1px solid white'}}>50% Average Believed Value</th>
-                    <th style={{border: '1px solid white'}}>Who Appraised?</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -75,12 +70,8 @@ function GivenAwayItems() {
                         </td>
                         <td style={{border: '1px solid white'}}>{item.quantity}</td>
                         <td style={{border: '1px solid white'}}>{item.item_name}</td>
-                        <td style={{border: '1px solid white'}}>{item.unidentified ? 'Yes' : 'No'}</td>
                         <td style={{border: '1px solid white'}}>{item.item_type}</td>
                         <td style={{border: '1px solid white'}}>{item.size}</td>
-                        <td style={{border: '1px solid white'}}>{item.avg_believed_value}</td>
-                        <td style={{border: '1px solid white'}}>{item.avg_believed_value * 0.5}</td>
-                        <td style={{border: '1px solid white'}}>{item.who_appraised}</td>
                     </tr>
                 ))}
                 </tbody>
