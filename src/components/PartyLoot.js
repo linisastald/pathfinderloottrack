@@ -59,6 +59,7 @@ function PartyLoot() {
         navigate(`/item-update/${selectedItems.join(",")}`);
     };
 
+
     const handleSelect = (item) => {
         if (selectedItems.includes(item.id)) {
             setSelectedItems(selectedItems.filter(id => id !== item.id));
@@ -75,6 +76,55 @@ function PartyLoot() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({status, who}),
+            });
+        }
+        await fetchItems();
+        setSelectedItems([]);
+    };
+    const handleSell = async () => {
+        const now = new Date().toISOString(); // Current date
+        for (let itemId of selectedItems) {
+            const item = items.find(i => i.id === itemId);
+
+            const sellValue = item.item_type === 'Trade Good' ? item.avg_believed_value :
+                Math.min(item.avg_believed_value, item.avg_believed_value * 0.5);
+
+            let sellValueInCopper = sellValue * 100; // Convert gold to copper
+
+            const gold = Math.floor(sellValueInCopper / 100);
+            sellValueInCopper -= gold * 100;
+
+            const silver = Math.floor(sellValueInCopper / 10);
+            sellValueInCopper -= silver * 10;
+
+            const copper = sellValueInCopper;
+
+            const transaction = {
+                session_date: now,
+                transaction_type: 'Sale',
+                notes: `Sold ${item.item_name}`,
+                copper: copper,
+                silver: silver,
+                gold: gold,
+                platinum: 0
+            };
+
+            // Create gold transaction
+            await fetch(`http://192.168.0.64:5000/gold`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(transaction),
+            });
+
+            // Update item status
+            await fetch(`http://192.168.0.64:5000/item/${itemId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({status: 'sold'}),
             });
         }
         await fetchItems();
