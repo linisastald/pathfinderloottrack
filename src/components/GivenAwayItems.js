@@ -6,7 +6,7 @@ function GivenAwayItems() {
     const [items, setItems] = useState([]);
 
     async function fetchItems() {
-        const response = await fetch('http://192.168.0.64:5000/item/status/none');
+        const response = await fetch('http://192.168.0.64:5000/item/status/Trash');
         if (response.ok) {
             const data = await response.json();
             const items = data.items.map(item => ({
